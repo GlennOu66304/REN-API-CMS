@@ -1,10 +1,12 @@
 # Vue.js+Node.js 开发实战
 
-#
+# Redis render
+[Redis®*](https://render.com/docs/redis#connecting-to-your-redis-from-outside-render)
 
 ## redis store the json data type into the key
-
+book:nav_menu is key, and the value is a string: string contains a array, array include a object
 ```
+
 SET book:nav_menu '[{"name": "主页","src": "http://loaclhost"},{"name": "文章","src": "/article/list"}]'
 ```
 

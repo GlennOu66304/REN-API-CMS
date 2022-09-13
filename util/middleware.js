@@ -1,5 +1,7 @@
+// redis connection
 let redis = require("../util/redisDB")
-const { ALLOW_APP } = require('../config/app')
+const { ALLOW_APP } = require('../config/headerscheck')
+// code check
 const util = require('./common')
 
 exports.checkAPP = (req, res, next) => {

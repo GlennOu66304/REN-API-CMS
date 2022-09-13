@@ -1,140 +1,20 @@
-// let redis = require("redis");
-
-// const { redisConfig } = require("../config/db")
-
-// const redis_client = redis.createClient(redisConfig);
-
-// redis_client.on("connect", () => {
-//     console.log("连接成功")
-// })
-
-// redis_client.on("error", (err) => {
-//     console.log(err);
-// });
-// redis = {};
-
-// keys = async (cursor, re, count) => {
-//     let getTempKeys = await new Promise((resolve) => {
-
-//         redis_client.scan([cursor, "MATCH", re, "COUNT", count], (err, res) => {
-//             console.log(err)
-//             return resolve(res);
-//         });
-//     });
-//     return getTempKeys;
-// }
-
-// redis.scan = async (re, cursor = 0, count = 100) => {
-//     return await keys(cursor, re, count)
-// }
-
-// redis.set = (key, value) => {
-
-//     value = JSON.stringify(value);
-//     return redis_client.set(key, value, (err) => {
-//         if (err) {
-//             console.log(err);
-//         }
-//     });
-// };
-
-// text = async (key) => {
-//     let getTempValue = await new Promise((resolve) => {
-
-//         redis_client.get(key, (err, res) => {
-//             return resolve(res)
-//         });
-//     });
-
-//     getTempValue = JSON.parse(getTempValue)
-//     return getTempValue
-// }
-
-// redis.get = async (key) => {
-//     return await text(key)
-// }
-
-
-// redis.expire = (key, ttl) => {
-//     redis_client.expire(key, parseInt(ttl))
-// }
-
-// id = async (key) => {
-//     console.log("查找" + key)
-//     let id = await new Promise((resolve => {
-//         redis_client.incr(key, (err, res) => {
-//             console.log(res)
-//             return resolve(res)
-//         })
-//     }))
-//     console.log(id)
-//     return id
-// }
-// redis.incr = async (key) => {
-//     return await id(key)
-// }
-
-// redis.zadd = (key, member, num) => {
-//     member = JSON.stringify(member)
-//     redis_client.zadd(key, num, member, (err) => {
-//         if (err) {
-//             console.log(err)
-//         }
-//     })
-// }
-
-// tempData = async (key, min, max) => {
-//     let tData = await new Promise((resolve => {
-//         redis_client.zrevrange([key, min, max, 'WITHSCORES'], (err, res) => {
-//             return resolve(res)
-//         })
-
-//     }))
-
-//     let oData = []
-
-//     for (let i = 0; i < tData.length; i = i + 2) {
-
-//         oData.push({ member: JSON.parse(tData[i]), score: tData[i + 1] })
-//     }
-//     return oData
-// }
-
-
-// redis.zrevrange = async (key, min = 0, max = -1) => {
-//     return tempData(key, min, max)
-// }
-
-
-// redis.zincrby = (key, member, NUM = 1) => {
-//     member = JSON.stringify(member)
-//     redis_client.zincrby(key, NUM, member, (err) => {
-//         if (err) console.log(err)
-//     })
-// }
-// tempZscore = async (key, member) => {
-//     member = JSON.stringify(member)
-//     return await new Promise((resolve => {
-//         redis_client.zscore(key, member, (err, res) => {
-//             console.log(res)
-//             return resolve(res)
-//         })
-//     }))
-// }
-// redis.zscore = async (key, member) => {
-//     return tempZscore(key, member)
-// }
-// module.exports = redis;
-
+require('dotenv').config()
 let redis = require("redis");
 //获取到数据库的配置
-const { redisConfig } = require("../config/db")
+// const { redisConfig } = require("../config/db")
+const url = process.env.URL
 //获取redis连接
-const redis_client = redis.createClient(redisConfig);
+// const redis_client = redis.createClient(redisConfig);
+// To connect to a different host or port, use a connection string in the format
+// https://www.npmjs.com/package/redis
 //连接成功
+const redis_client = redis.createClient({
+    url: url
+});
 redis_client.on("connect", () => {
-    console.log("连接成功")
+    console.log("redis 连接成功")
 })
+
 //错误处理
 redis_client.on("error", (err) => {
     console.log(err);
